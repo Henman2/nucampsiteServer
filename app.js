@@ -3,14 +3,20 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-
+const mongoose = require('mongoose');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const campsiteRouter = require('./routes/campsiteRouter'); 
 const promotionRouter = require('./routes/promotionRouter');
 const partnerRouter = require('./routes/partnerRouter');
+const url = 'mongodb://localhost:27017/nucampsite';
 
 const app = express();
+//Connect to database
+mongoose.connect(url).then(()=>{
+    console.log('connection to database successfully established');
+  }
+).catch(err=> console.log(err));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
