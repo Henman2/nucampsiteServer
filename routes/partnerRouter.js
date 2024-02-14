@@ -24,6 +24,7 @@ partnerRouter.route('/')
     })
     .put((req, res) => {
         res.statusCode = 403;
+        res.setHeader('Content-Type', 'text/plain');
         res.end('PUT operation not supported on /partners');
     })
     .delete((req, res, next) => { //delete all partner data from database
@@ -49,6 +50,7 @@ partnerRouter.route('/:partnerId')
     })
     .post((req, res) => {
         res.statusCode = 403;
+        res.setHeader('Content-Type', 'text/plain');
         res.end(`POST operation not supported on /partners/${req.params.partnerId}`);
     })
     .put((req, res, next) => {

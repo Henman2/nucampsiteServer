@@ -18,8 +18,10 @@ campsiteRouter.route('/')
         .catch(err => next(err));
     })
     .post((req, res, next) => {
+        
         Campsite.create(req.body)
         .then(campsite =>{
+            // console.log(req.body);
             console.log('Campsite Created ', campsite);
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
