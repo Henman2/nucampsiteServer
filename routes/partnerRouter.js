@@ -1,7 +1,7 @@
 const express = require('express');
 const partnerRouter = express.Router();
 const Partner = require('../models/partner');
-
+const authenticate = require('../authenticate');
 partnerRouter.route('/')
     .get((req, res, next) => { //get all partners data from datbase
         Partner.find()
