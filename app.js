@@ -1,17 +1,18 @@
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
-const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const FileStore = require('session-file-store')(session);
+// const cookieParser = require('cookie-parser');
+
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/usersRouter');
 const campsiteRouter = require('./routes/campsiteRouter'); 
 const promotionRouter = require('./routes/promotionRouter');
 const partnerRouter = require('./routes/partnerRouter');
 const url = 'mongodb://localhost:27017/nucampsite';
-const session = require('express-session');
-const FileStore = require('session-file-store')(session);
 
 const app = express();
 //Connect to database
@@ -20,6 +21,10 @@ mongoose.connect(url).then(()=>{
   }
 ).catch(err=> console.log(err)); 
 // app.use(cookieParser('12345-67890-09876-54321'));
+app.set('view engine', 'jade');
+app.use(logger('dev'));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(session({
   name: 'session-id',
     secret: '12345-67890-09876-54321',
@@ -27,8 +32,6 @@ app.use(session({
     resave: false,
     store: new FileStore()
 }));
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 //Implement basic authentication:
@@ -52,9 +55,7 @@ const auth = (req, res, next)=>{
 }
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-app.use(logger('dev'));
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(auth); //use authentication
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/campsites', campsiteRouter);
