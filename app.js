@@ -16,12 +16,22 @@ const campsiteRouter = require('./routes/campsiteRouter');
 const promotionRouter = require('./routes/promotionRouter');
 const partnerRouter = require('./routes/partnerRouter');
 const url = config.mongoUrl;
-const app = express();
 //Connect to database
 mongoose.connect(url).then(()=>{
     console.log('connection to database successfully established');
   }
 ).catch(err=> console.log(err)); 
+
+const app = express();
+// Secure traffic only
+app.all('*', (req, res, next) => {
+  if (req.secure) {
+    return next();
+  } else {
+      console.log(`Redirecting to: https://${req.hostname}:${app.get('secPort')}${req.url}`);
+      res.redirect(301, `https://${req.hostname}:${app.get('secPort')}${req.url}`);
+  }
+});
 // app.use(cookieParser('12345-67890-09876-54321'));
 app.set('view engine', 'jade');
 // view engine setup
