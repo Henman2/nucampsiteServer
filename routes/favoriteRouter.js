@@ -48,6 +48,7 @@ favoriteRouter.route('/')
 })
 .put(cors.corsWithOptions, authenticate.verifyUser, (req, res) => {
     res.statusCode = 403;
+    res.setHeader('Content-Type', 'text/plain');
     res.end('PUT operation not supported on /favorites');
 })
 .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
@@ -69,6 +70,7 @@ favoriteRouter.route('/:campsiteId')
 .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
 .get(cors.cors, authenticate.verifyUser, (req, res) => {
     res.statusCode = 403;
+    res.setHeader('Content-Type', 'text/plain');
     res.end(`GET operation not supported on /favorites/${req.params.campsiteId}`);
 })
 .post(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
@@ -103,6 +105,7 @@ favoriteRouter.route('/:campsiteId')
 })
 .put(cors.corsWithOptions, authenticate.verifyUser, (req, res) => {
     res.statusCode = 403;
+    res.setHeader('Content-Type', 'text/plain');
     res.end(`PUT operation not supported on /favorites/${req.params.campsiteId}`);
 })
 .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
