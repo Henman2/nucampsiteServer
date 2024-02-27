@@ -5,7 +5,7 @@ const authenticate = require('../authenticate');
 const cors = require('./cors');
 partnerRouter.route('/')
     .options(cors.corsWithOptions, (req, res) => res.sendStatus(200))
-    .get((req, res, next) => { //get all partners data from datbase
+    .get(cors.cors, (req, res, next) => { //get all partners data from datbase
         Partner.find()
             .then(partners =>{
                 res.statusCode = 200;   
